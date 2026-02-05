@@ -252,6 +252,49 @@ h4 {
     }
 }
 
+/* RESPONSIVE PIPELINE GRAPH */
+.pipeline-container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 2rem;
+}
+
+/* RESPONSIVE HUD POSITIONS */
+.hero-hud-right {
+    position: absolute;
+    top: 2rem;
+    right: 6rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    text-align: right;
+    z-index: 12;
+}
+
+@media (max-width: 768px) {
+    .pipeline-container {
+        height: auto !important;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 0 !important;
+    }
+
+    /* Hide the horizontal line on mobile */
+    .pipeline-line {
+        display: none;
+    }
+
+    /* Stack HUD or Adjust */
+    .hero-hud-right {
+        right: 2rem !important;
+        top: 6rem !important;
+        /* Move below the left HUD */
+    }
+}
+
 /* REMOVED NOISE & SCANLINES FOR PERFORMANCE */
 .noise,
 .scanlines {

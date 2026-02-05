@@ -34,7 +34,7 @@ const Hero = () => {
                 SYS.STATUS: ONLINE
             </div>
 
-            <div style={{ position: 'absolute', top: '2rem', right: '6rem', fontFamily: 'monospace', fontSize: '0.8rem', opacity: 0.5, textAlign: 'right', zIndex: 12 }}>
+            <div className="hero-hud-right">
                 VERSION: 2.5.0 <br />
                 BUILD: STABLE
             </div>

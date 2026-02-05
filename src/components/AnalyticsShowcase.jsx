@@ -98,13 +98,14 @@ const AnalyticsShowcase = () => {
                 {/* GRAPH 4: DATA PIPELINE ARCHITECTURE */}
                 <div className="glass-card" style={{ gridColumn: '1 / -1' }}>
                     <h3 style={{ fontFamily: 'monospace', color: 'var(--accent-sub)', marginBottom: '2rem' }}>END-TO-END DATA ARCHITECTURE</h3>
-                    <div style={{ height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', padding: '0 2rem' }}>
+                    <div className="pipeline-container">
 
                         {/* Connecting Line Backdrop */}
-                        <div style={{ position: 'absolute', top: '50%', left: '4rem', right: '4rem', height: '1px', background: 'var(--border)', zIndex: 0 }} />
+                        <div className="pipeline-line" style={{ position: 'absolute', top: '50%', left: '4rem', right: '4rem', height: '1px', background: 'var(--border)', zIndex: 0 }} />
 
                         {/* Data Packets Flowing */}
                         <motion.div
+                            className="pipeline-line"
                             animate={{ left: ['5%', '95%'], opacity: [0, 1, 1, 0] }}
                             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                             style={{
