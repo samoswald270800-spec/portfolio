@@ -1,0 +1,284 @@
+/* RESET & FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600&display=swap');
+
+:root {
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+
+    /* PALETTE - "VOID & NEON" */
+    --bg-dark: #080808;
+    --text-dark: #f0f0f0;
+    --accent-primary-dark: #ccff00;
+    /* Acid Lime */
+    --accent-secondary-dark: #7000ff;
+    /* Electric Violet */
+    --surface-dark: #121212;
+
+    /* PALETTE - "PAPER & INK" (High Contrast) */
+    --bg-light: #ffffff;
+    --text-light: #111111;
+    --accent-primary-light: #d60045;
+    /* Darker Pink for better read */
+    --accent-secondary-light: #1a2adb;
+    /* Solid Blue */
+    --surface-light: #f4f4f5;
+    /* Distinct surface color */
+
+    --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --ease-squish: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Faster transition */
+}
+
+body.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+    --bg: var(--bg-dark);
+    --text: var(--text-dark);
+    --accent: var(--accent-primary-dark);
+    --accent-sub: var(--accent-secondary-dark);
+    --surface: var(--surface-dark);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+body.light {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    --bg: var(--bg-light);
+    --text: var(--text-light);
+    --accent: var(--accent-primary-light);
+    --accent-sub: var(--accent-secondary-light);
+    --surface: var(--surface-light);
+    --border: rgba(0, 0, 0, 0.1);
+}
+
+body.light .glass-card {
+    background: rgba(240, 240, 240, 0.8);
+    /* Solid light grey for readability */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
+}
+
+body.light .section-title {
+    color: var(--text);
+    /* Solid text in light mode instead of washed accent */
+}
+
+/* UTILITIES */
+.full-screen {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TYPOGRAPHY */
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display);
+    margin: 0;
+    line-height: 0.9;
+}
+
+.hero-text {
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    mix-blend-mode: exclusion;
+    color: var(--text);
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.section-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+}
+
+/* COMPONENTS */
+.card-stack {
+    perspective: 1000px;
+}
+
+/* OPTIMIZED CARD - ZERO BLUR */
+.glass-card {
+    background: rgba(17, 17, 17, 0.6);
+    /* Slightly more transparent for depth */
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    /* Sharper corners for technical feel */
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    will-change: transform;
+    /* Hardware acceleration for smooth hover */
+}
+
+/* TECHNICAL CORNER MARKERS (The "Minute Detail") */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.glass-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.glass-card:hover::before,
+.glass-card:hover::after {
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent);
+    background: rgba(20, 20, 20, 0.8);
+}
+
+/* RESPONSIVE UTILITIES */
+.grid-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.project-row {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    margin-bottom: 8rem;
+}
+
+/* TABLET OPTIMIZATION */
+@media (max-width: 1024px) {
+    .project-row {
+        gap: 2rem;
+    }
+
+    section {
+        padding: 6rem 5% !important;
+    }
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    section {
+        padding: 4rem 5% !important;
+        /* Force readable padding */
+    }
+
+    .hero-text {
+        font-size: 15vw !important;
+    }
+
+    .section-title {
+        font-size: 3rem !important;
+    }
+
+    .project-row {
+        flex-direction: column !important;
+        gap: 2rem;
+        margin-bottom: 6rem;
+    }
+
+    .project-row:nth-child(even) {
+        flex-direction: column !important;
+    }
+
+    .glass-card {
+        padding: 1.5rem;
+    }
+
+    .grid-cols {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TOUCH DEVICE OPTIMIZATION */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Hide custom cursor on touch devices to prevent lag/issues */
+    .custom-cursor {
+        display: none !important;
+    }
+
+    /* Ensure links have normal cursor */
+    a,
+    button,
+    .interactive {
+        cursor: pointer !important;
+    }
+}
+
+/* REMOVED NOISE & SCANLINES FOR PERFORMANCE */
+.noise,
+.scanlines {
+    display: none;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 6px;
+    /* Thinner */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 0;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--bg);
+    text-shadow: none;
+}
+
+a {
+    cursor: none;
+}
