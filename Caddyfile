@@ -1,13 +1,12 @@
-# Custom Caddyfile for Railway/Railpack static hosting.
+# Caddy config for serving the portfolio (used by the Dockerfile on Railway).
 #
-# This mirrors Railpack's default static Caddyfile, with ONE change: the
+# It mirrors Railpack's default static Caddyfile, with ONE change: the
 # Content-Security-Policy is relaxed to allow blob:, data: and 'unsafe-eval'.
 # The portfolio (index.html) unpacks its embedded runtime, fonts and images
 # into blob: URLs and compiles its components in the browser (via new Function).
 # Railpack's stock CSP forbids blob: and unsafe-eval, which left the page blank
 # with "[bundle] error" and un-interpolated {{ }} bindings. Everything else here
 # matches the default so the security posture is otherwise unchanged.
-
 {
 	admin off
 	persist_config off
@@ -38,7 +37,7 @@
 		-Server
 	}
 
-	root * {$RAILPACK_STATIC_FILE_ROOT:/app}
+	root * {$SITE_ROOT:/app}
 
 	# Serve static files, hiding VCS/secrets.
 	file_server {
