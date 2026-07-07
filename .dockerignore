@@ -1,0 +1,6 @@
+# Keep the Docker build context small — only index.html, assets/ and the
+# Caddyfile are copied into the image.
+.git
+.github
+*.md
+.nojekyll
