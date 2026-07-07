@@ -1,0 +1,62 @@
+# Custom Caddyfile for Railway/Railpack static hosting.
+#
+# This mirrors Railpack's default static Caddyfile, with ONE change: the
+# Content-Security-Policy is relaxed to allow blob:, data: and 'unsafe-eval'.
+# The portfolio (index.html) unpacks its embedded runtime, fonts and images
+# into blob: URLs and compiles its components in the browser (via new Function).
+# Railpack's stock CSP forbids blob: and unsafe-eval, which left the page blank
+# with "[bundle] error" and un-interpolated {{ }} bindings. Everything else here
+# matches the default so the security posture is otherwise unchanged.
+
+{
+	admin off
+	persist_config off
+	auto_https off
+
+	log {
+		format json
+	}
+
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:{$PORT:80} {
+	log {
+		format json
+	}
+
+	respond /health 200
+
+	# Security headers (Content-Security-Policy adds blob:/data:/'unsafe-eval').
+	header {
+		X-XSS-Protection "1; mode=block"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Content-Security-Policy "default-src 'self'; img-src 'self' data: blob: https: *; style-src 'self' 'unsafe-inline' https: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https: *; font-src 'self' data: blob: https: *; connect-src 'self' blob: data: https: *; worker-src 'self' blob:; media-src 'self' https: *; object-src 'none'; frame-src 'self' https: *;"
+		-Server
+	}
+
+	root * {$RAILPACK_STATIC_FILE_ROOT:/app}
+
+	# Serve static files, hiding VCS/secrets.
+	file_server {
+		hide .git
+		hide .env*
+	}
+
+	# Compression.
+	encode {
+		gzip
+		zstd
+	}
+
+	# Try the exact path, then with .html, then a directory index.
+	try_files {path} {path}.html {path}/index.html
+
+	handle_errors {
+		rewrite * /{err.status_code}.html
+		file_server
+	}
+}
